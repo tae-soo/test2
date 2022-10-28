@@ -1,0 +1,32 @@
+apiVersion : apps/v1
+kind : Deployment
+metadata: 
+  name: testweb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      testweb: green
+  template:
+    metadata:
+      name: testweb
+      labels:
+        testweb: green
+    spec:
+      containers:
+      - name: webserver
+        image: 192.168.8.100:5000/testweb:green
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: testweb-svc
+spec:
+  ports:
+  - name: web port
+    port: 80
+  selector:
+    testweb: green
+  type: LoadBalancer
